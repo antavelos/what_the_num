@@ -4,13 +4,27 @@
 
 import click
 
+from what_the_num import what_the_num as wtn
+
 
 @click.command()
-def main(args=None):
+@click.argument('number')
+@click.option("--trivia", "num_type", flag_value="trivia")
+@click.option("--math", "num_type", flag_value="math")
+@click.option("--date", "num_type", flag_value="date")
+@click.option("--year", "num_type", flag_value="year")
+def main(number, num_type):
     """Console script for what_the_num."""
-    click.echo("Replace this message by putting your code into "
-               "what_the_num.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
+    try:
+        response = wtn(number, num_type)
+    except Exception as e:
+        click.echo(e)
+        return 1
+
+    for num, text in response.items():
+        click.echo(num)
+        click.echo(text)
+
     return 0
 
 
